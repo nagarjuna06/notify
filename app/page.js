@@ -2,13 +2,21 @@
 import Image from "next/image";
 export default function Home() {
   const pushNotification = async () => {
+    // check the permission of the browser
     const permission = await window.Notification.requestPermission();
+
+    //check if permission granted
     if (permission == "granted") {
-      new window.Notification("Sample Notification", {
+      // create the notification object
+      const notification = new window.Notification("Sample Notification", {
         body: "Lorem ipsum dolor sit amet.",
         icon: "/bell.svg",
       });
-      console.log("Notification pushed");
+
+      // notification onclick event handler
+      notification.onclick = () => {
+        console.log("Notification pushed");
+      };
     } else {
       alert("Notification permission denied! allow the show Notifications");
       console.log("Notification permission denied!");
