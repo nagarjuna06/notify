@@ -1,26 +1,13 @@
 "use client";
 import Image from "next/image";
+import useNotification from "./hook/use-notification";
 export default function Home() {
-  const pushNotification = async () => {
-    // check the permission of the browser
-    const permission = await window.Notification.requestPermission();
-
-    //check if permission granted
-    if (permission == "granted") {
-      // create the notification object
-      const notification = new window.Notification("Sample Notification", {
-        body: "Lorem ipsum dolor sit amet.",
-        icon: "/bell.svg",
-      });
-
-      // notification onclick event handler
-      notification.onclick = () => {
-        console.log("Notification pushed");
-      };
-    } else {
-      alert("Notification permission denied! allow the show Notifications");
-      console.log("Notification permission denied!");
-    }
+  const { pushNotification } = useNotification("sample-notification");
+  const handleSendNotification = async () => {
+    await pushNotification(
+      "Sample Notification",
+      "Lorem ipsum dolor sit amet."
+    );
   };
   return (
     <div className="flex flex-col py-10 gap-10 items-center h-screen bg-gradient-to-b from-[#2C2143] from-40% to-black">
@@ -40,7 +27,7 @@ export default function Home() {
         <p className="text-gray-500">Lorem ipsum dolor sit amet.</p>
         <button
           className="bg-[#1D103A] w-full p-2 border-2 border-[#6434CE] font-semibold rounded-md"
-          onClick={pushNotification}
+          onClick={handleSendNotification}
         >
           Send Notification
         </button>
